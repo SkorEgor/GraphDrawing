@@ -1,3 +1,6 @@
+
+![C++](https://img.shields.io/badge/-C++-090909?style=for-the-badge&logo=C%2b%2b&logoColor=6296CC) ![MFC](https://img.shields.io/badge/-MFC-090909?style=for-the-badge) ![MFC](https://img.shields.io/badge/-Window_App-090909?style=for-the-badge)
+
 <h3 align="center">GraphDrawing</h3>
 <p align="center">
 Отрисовка графиков в Picture Control MFC
@@ -18,8 +21,7 @@
 
 
 ## О проекте
-Класс "Drawer.h" для удобной/простой отрисовки графиков c помощью «wingdi» в Picture Control, библиотеки MFC 
-<br />
+Класс ["Drawer.h"](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/GraphDrawing/Drawer.h) создан для удобной/простой отрисовки графиков c помощью «afxwin» в Picture Control, библиотеки MFC. Именно его рекомендую импортировать/добавить с свой проект. 
 
 ## Демонстрация
 Данные проект, как пример использования файла/класса Drawer.h.
@@ -52,17 +54,17 @@
 ![3.AddVar.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/3.AddVar.png)
 </div>
 
-4.	В папку с проектом добавляем файл «Drawer.h», а также в самом проекте
+4.	В папку с проектом добавляем файл «Drawer.h», а также в сам проект
 
 <div align="center">
 
 ![4.AddDrawer.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/4.AddDrawer.png)
 </div>
 
-5.	Подготовка к отрисовке
+5.	Подготовка к отрисовке<br />
 a.	Открываем заголовочный файл проекта “…Dlg.h”. В моем случае “GraphDrawingDlg.h” 
 <br /><p align="center">![5.OpenHeader.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/5.OpenHeader.png)</p>
-b.	Подключаем класс в коде, прописывая `#include “Drawer.h`
+b.	Подключаем класс в коде, прописывая `#include “Drawer.h`<br />
 c.	В поле protected добавляем объект класса “Drawer”. Пример `Drawer drv;`
 <br /><p align="center">![6.EditHeader.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/6.EditHeader.png)</p>
 6.	«Проинициализируем» объект класса Drawer в функции создания окна. Открываем аналогичный Header файлу cpp файл. В моем случае «GraphDrawingDlg.cpp». Находим функцию «OnInitDialog» и вызываем в ней метод “Creat” для объекта класса «Drawer» и передаем HWND «Picture Control»
@@ -71,16 +73,20 @@ drv.Create(GetDlgItem(IDC_GRAPH)->GetSafeHwnd());
 ```
 <br /><p align="center">![7.OnInit.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/7.OnInit.png)</p>
 
-Дальше можно вызывать метод Draw для отрисовки с заданными параметрами.
+---
+
+Дальше можно пользоваться, вызывать метод Draw для отрисовки с заданными параметрами.
+
+---
 
 Для примера работы, добавим в этот проект кнопку и обработчик нажатия на неё. Напишем небольшой код.
 1.	Создадим 2 вектора (предварительно подключив класс vector)
 ```C
 vector <double> x, y;
-int numberFunctionPoints = 20;
 ```
 2.	Заполним их значениями
 ```C
+int numberFunctionPoints = 20;
 for (int i = 0; i < numberFunctionPoints; i++) {
 	x.push_back(i);
 	y.push_back(i * 2);
@@ -100,280 +106,114 @@ drv.Draw(
 ![8.Example.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/8.Example.png)
 </div>
 
-## Алгоритм
-<div align="center">
-
-![alt text](https://github.com/SkorEgor/MoneyTransfers/blob/master/Algorithm.jpg)
-</div>
-
-## Структура проекта
-Проект разделен на 2 файла 
-
-•	.h – Содержит определение класса ORDER, его полей и методов<br />
-•	.cpp – Содержит определение методов класса ORDER и main функцию.
-
-
-## Ключевые моменты
-1.	Для работы со сложной структурой данных, создан класс ORDER <br />
-C Публичными методами и конструкторами.<br />
-С приватными полями:
-	* Расчетный счет плательщика;
-	* Расчетный счет получателя;
-	* Перечисляемая сумма в рублях.
-
-2.	Методы. Их переопределяем. К примеру, оператор «=». 
-Прототип в .h:
+## Описание класса [Drawer](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/GraphDrawing/Drawer.h):
+1.	Для использования объекта класса, необходимо связать объект класса с Picture Control, для отображения, по средством метода ` void Create(HWND hWnd)`
+2.	Для рисования вызывается метод Draw
+Параметры:
 ```C
-ORDER& operator= (const ORDER&);
+vector<double>& data	- вектор значений по оси Y
+double min_data		- min значение по Y
+double max_data		- max значение по Y
+vector<double>& keys	- вектор значений по оси Y 
+double min_keys		- min значение по X
+double max_keys		- max значение по X
+char color		- символ цвета графика ('R' – красный; 'G'-зеленый)
 ```
-Тело в .cpp:
+Переменные для рисования (ручки, их цвета и жирность)
 ```C
-ORDER& ORDER::operator= (const ORDER& argument)									
+CPen subgrid_pen(PS_DOT, 1, RGB(200, 200, 200));
+CPen grid_pen(PS_SOLID, 1, RGB(0, 0, 0));
+CPen data_pen(PS_SOLID, 2, RGB(255, 0, 0));
+CPen data_pen2(PS_SOLID, 2, RGB(38, 0, 255));
+CPen pen_red(PS_SOLID, 2, RGB(178, 34, 34));
+CPen pen_green(PS_SOLID, 2, RGB(0, 128, 0));
+CFont font;
+font.CreateFontW(18, 0, 0, 0,
+	FW_DONTCARE,
+	FALSE,				// Курсив
+	FALSE,				// Подчеркнутый
+	FALSE,				// Перечеркнутый		DEFAULT_CHARSET,	// Набор символов
+	OUT_OUTLINE_PRECIS,	// Точность соответствия.	
+	CLIP_DEFAULT_PRECIS,//  
+	CLEARTYPE_QUALITY,	// Качество
+	VARIABLE_PITCH,		//
+	TEXT("Times New Roman")		//
+);
+```
+Получаем размеры окна, задаем отступы и получаем реальную область рисования, её ширину и высоту.
+```C
+int padding = 20;
+int left_keys_padding = 20;
+int bottom_keys_padding = 10;
+
+int actual_width = frame.Width() - 2 * padding - left_keys_padding;
+int actual_height = frame.Height() - 2 * padding - bottom_keys_padding;
+
+int actual_top = padding;
+int actual_bottom = actual_top + actual_height;
+int actual_left = padding + left_keys_padding;
+int actual_right = actual_left + actual_width;
+```
+Рисование сетки
+```C
+unsigned int grid_size = 10;
+
+memDC.SelectObject(&subgrid_pen);
+
+for (double i = 0.5; i < grid_size; i += 1.0)
 {
-	payer_current_account = argument.payer_current_account;
-	beneficiary_current_account = argument.beneficiary_current_account;
-	summ = argument.summ;
-	return *this;
+	memDC.MoveTo(actual_left + i * actual_width / grid_size, actual_top);
+	memDC.LineTo(actual_left + i * actual_width / grid_size, actual_bottom);
+	memDC.MoveTo(actual_left, actual_top + i * actual_height / grid_size);
+	memDC.LineTo(actual_right, actual_top + i * actual_height / grid_size);
+}
+
+memDC.SelectObject(&grid_pen);
+
+for (double i = 0.0; i < grid_size + 1; i += 1.0)
+{
+	memDC.MoveTo(actual_left + i * actual_width / grid_size, actual_top);
+	memDC.LineTo(actual_left + i * actual_width / grid_size, actual_bottom);
+	memDC.MoveTo(actual_left, actual_top + i * actual_height / grid_size);
+	memDC.LineTo(actual_right, actual_top + i * actual_height / grid_size);
 }
 ```
-<!-- PROJECT LOGO -->
-<br />
-<div align="center">
-  <a href="https://github.com/othneildrew/Best-README-Template">
-    <img src="images/logo.png" alt="Logo" width="80" height="80">
-  </a>
-
-  <h3 align="center">Best-README-Template</h3>
-
-  <p align="center">
-    An awesome README template to jumpstart your projects!
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template"><strong>Explore the docs »</strong></a>
-    <br />
-    <br />
-    <a href="https://github.com/othneildrew/Best-README-Template">View Demo</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Report Bug</a>
-    ·
-    <a href="https://github.com/othneildrew/Best-README-Template/issues">Request Feature</a>
-  </p>
-</div>
-
-
-
-<!-- TABLE OF CONTENTS -->
-<details>
-  <summary>Table of Contents</summary>
-  <ol>
-    <li>
-      <a href="#about-the-project">About The Project</a>
-      <ul>
-        <li><a href="#built-with">Built With</a></li>
-      </ul>
-    </li>
-    <li>
-      <a href="#getting-started">Getting Started</a>
-      <ul>
-        <li><a href="#prerequisites">Prerequisites</a></li>
-        <li><a href="#installation">Installation</a></li>
-      </ul>
-    </li>
-    <li><a href="#usage">Usage</a></li>
-    <li><a href="#roadmap">Roadmap</a></li>
-    <li><a href="#contributing">Contributing</a></li>
-    <li><a href="#license">License</a></li>
-    <li><a href="#contact">Contact</a></li>
-    <li><a href="#acknowledgments">Acknowledgments</a></li>
-  </ol>
-</details>
-
-
-
-<!-- ABOUT THE PROJECT -->
-## About The Project
-
-[![Product Name Screen Shot][product-screenshot]](https://example.com)
-
-There are many great README templates available on GitHub; however, I didn't find one that really suited my needs so I created this enhanced one. I want to create a README template so amazing that it'll be the last one you ever need -- I think this is it.
-
-Here's why:
-* Your time should be focused on creating something amazing. A project that solves a problem and helps others
-* You shouldn't be doing the same tasks over and over like creating a README from scratch
-* You should implement DRY principles to the rest of your life :smile:
-
-Of course, no one template will serve all projects since your needs may be different. So I'll be adding more in the near future. You may also suggest changes by forking this repo and creating a pull request or opening an issue. Thanks to all the people have contributed to expanding this template!
-
-Use the `BLANK_README.md` to get started.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-### Built With
-
-This section should list any major frameworks/libraries used to bootstrap your project. Leave any add-ons/plugins for the acknowledgements section. Here are a few examples.
-
-* [![Next][Next.js]][Next-url]
-* [![React][React.js]][React-url]
-* [![Vue][Vue.js]][Vue-url]
-* [![Angular][Angular.io]][Angular-url]
-* [![Svelte][Svelte.dev]][Svelte-url]
-* [![Laravel][Laravel.com]][Laravel-url]
-* [![Bootstrap][Bootstrap.com]][Bootstrap-url]
-* [![JQuery][JQuery.com]][JQuery-url]
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- НАЧИНАЯ-->
-## Getting Started
-
-This is an example of how you may give instructions on setting up your project locally.
-To get a local copy up and running follow these simple example steps.
-<!-- Предпосылки -->
-### Prerequisites
-
-This is an example of how to list things you need to use the software and how to install them.
-* npm
-  ```sh
-  npm install npm@latest -g
-  ```
-<!-- Монтаж-->
-### Installation
-
-_Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
-
-1. Get a free API Key at [https://example.com](https://example.com)
-2. Clone the repo
-   ```sh
-   git clone https://github.com/your_username_/Project-Name.git
-   ```
-3. Install NPM packages
-   ```sh
-   npm install
-   ```
-4. Enter your API in `config.js`
-   ```js
-   const API_KEY = 'ENTER YOUR API';
-   ```
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- USAGE EXAMPLES -->
-## Usage
-
-Use this space to show useful examples of how a project can be used. Additional screenshots, code examples and demos work well in this space. You may also link to more resources.
-
-_For more examples, please refer to the [Documentation](https://example.com)_
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ROADMAP -->
-## Roadmap
-
-- [x] Add Changelog
-- [x] Add back to top links
-- [ ] Add Additional Templates w/ Examples
-- [ ] Add "components" document to easily copy & paste sections of the readme
-- [ ] Multi-language Support
-    - [ ] Chinese
-    - [ ] Spanish
-
-See the [open issues](https://github.com/othneildrew/Best-README-Template/issues) for a full list of proposed features (and known issues).
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ВКЛАД -->
-## Contributing
-
-Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
-
-If you have a suggestion that would make this better, please fork the repo and create a pull request. You can also simply open an issue with the tag "enhancement".
-Don't forget to give the project a star! Thanks again!
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- Лицензия -->
-## License
-
-Distributed under the MIT License. See `LICENSE.txt` for more information.
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- CONTACT -->
-## Contact
-
-Your Name - [@your_twitter](https://twitter.com/your_username) - email@example.com
-
-Project Link: [https://github.com/your_username/repo_name](https://github.com/your_username/repo_name)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- ACKNOWLEDGMENTS -->
-## Acknowledgments
-
-Use this space to list resources you find helpful and would like to give credit to. I've included a few of my favorites to kick things off!
-
-* [Choose an Open Source License](https://choosealicense.com)
-* [GitHub Emoji Cheat Sheet](https://www.webpagefx.com/tools/emoji-cheat-sheet)
-* [Malven's Flexbox Cheatsheet](https://flexbox.malven.co/)
-* [Malven's Grid Cheatsheet](https://grid.malven.co/)
-* [Img Shields](https://shields.io)
-* [GitHub Pages](https://pages.github.com)
-* [Font Awesome](https://fontawesome.com)
-* [React Icons](https://react-icons.github.io/react-icons/search)
-
-<p align="right">(<a href="#top">back to top</a>)</p>
-
-
-
-<!-- MARKDOWN LINKS & IMAGES -->
-<!-- https://www.markdownguide.org/basic-syntax/#reference-style-links -->
-[contributors-shield]: https://img.shields.io/github/contributors/othneildrew/Best-README-Template.svg?style=for-the-badge
-[contributors-url]: https://github.com/othneildrew/Best-README-Template/graphs/contributors
-[forks-shield]: https://img.shields.io/github/forks/othneildrew/Best-README-Template.svg?style=for-the-badge
-[forks-url]: https://github.com/othneildrew/Best-README-Template/network/members
-[stars-shield]: https://img.shields.io/github/stars/othneildrew/Best-README-Template.svg?style=for-the-badge
-[stars-url]: https://github.com/othneildrew/Best-README-Template/stargazers
-[issues-shield]: https://img.shields.io/github/issues/othneildrew/Best-README-Template.svg?style=for-the-badge
-[issues-url]: https://github.com/othneildrew/Best-README-Template/issues
-[license-shield]: https://img.shields.io/github/license/othneildrew/Best-README-Template.svg?style=for-the-badge
-[license-url]: https://github.com/othneildrew/Best-README-Template/blob/master/LICENSE.txt
-[linkedin-shield]: https://img.shields.io/badge/-LinkedIn-black.svg?style=for-the-badge&logo=linkedin&colorB=555
-[linkedin-url]: https://linkedin.com/in/othneildrew
-[product-screenshot]: images/screenshot.png
-[Next.js]: https://img.shields.io/badge/next.js-000000?style=for-the-badge&logo=nextdotjs&logoColor=white
-[Next-url]: https://nextjs.org/
-[React.js]: https://img.shields.io/badge/React-20232A?style=for-the-badge&logo=react&logoColor=61DAFB
-[React-url]: https://reactjs.org/
-[Vue.js]: https://img.shields.io/badge/Vue.js-35495E?style=for-the-badge&logo=vuedotjs&logoColor=4FC08D
-[Vue-url]: https://vuejs.org/
-[Angular.io]: https://img.shields.io/badge/Angular-DD0031?style=for-the-badge&logo=angular&logoColor=white
-[Angular-url]: https://angular.io/
-[Svelte.dev]: https://img.shields.io/badge/Svelte-4A4A55?style=for-the-badge&logo=svelte&logoColor=FF3E00
-[Svelte-url]: https://svelte.dev/
-[Laravel.com]: https://img.shields.io/badge/Laravel-FF2D20?style=for-the-badge&logo=laravel&logoColor=white
-[Laravel-url]: https://laravel.com
-[Bootstrap.com]: https://img.shields.io/badge/Bootstrap-563D7C?style=for-the-badge&logo=bootstrap&logoColor=white
-[Bootstrap-url]: https://getbootstrap.com
-[JQuery.com]: https://img.shields.io/badge/jQuery-0769AD?style=for-the-badge&logo=jquery&logoColor=white
-[JQuery-url]: https://jquery.com 
+Выбираем цвета, запоминаем крайние значения конвертируем значения по осям из реальных значений в координаты окна
+```C
+if (color == 'R')memDC.SelectObject(&pen_red);
+else if (color == 'G')memDC.SelectObject(&pen_green);
+else memDC.SelectObject(&data_pen);
+
+double data_y_max(max_data), data_y_min(min_data);
+double data_x_max(max_keys), data_x_min(min_keys);
+
+vector<double> y = convert_range(data, actual_top, actual_bottom, data_y_max, data_y_min);
+vector<double> x = convert_range(keys, actual_right, actual_left, data_x_max, data_x_min);
+
+memDC.MoveTo(x[0], y[0]);
+for (unsigned int i = 0; i < y.size(); i++)
+{
+	memDC.LineTo(x[i], y[i]);
+}
+```
+Подписываем оси и выводим буфер на картинку
+```C
+memDC.SelectObject(&font);
+memDC.SetTextColor(RGB(0, 0, 0));
+for (int i = 0; i < grid_size / 2 + 1; i++)
+{
+	CString str;
+	str.Format(L"%.1f", data_x_min + i * (data_x_max - data_x_min) / (grid_size / 2));
+	memDC.TextOutW(actual_left + (double)i * actual_width / (grid_size / 2) - bottom_keys_padding, actual_bottom + bottom_keys_padding / 2, str);
+
+	str.Format(L"%.1f", data_y_min + i * (data_y_max - data_y_min) / (grid_size / 2));
+	memDC.TextOutW(actual_left - 1.5 * left_keys_padding, actual_bottom - (double)i * actual_height / (grid_size / 2) - bottom_keys_padding, str);
+}
+
+dc->BitBlt(0, 0, frame.Width(), frame.Height(), &memDC, 0, 0, SRCCOPY);
+```
+
+## Особенности проекта
+Специфичные оси координат окна
+
+Предварительная отрисовка в буфер 
