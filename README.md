@@ -25,39 +25,80 @@
 Данные проект, как пример использования файла/класса Drawer.h.
 Достаточно запустить [“GraphDrawing.exe”](https://github.com/SkorEgor/GraphDrawing/blob/master/x64/Debug/GraphDrawing.exe), и нажать кнопку “Отрисовать”.
 
-
-1. Вместе с программой должен лежать файл “ ReadData.txt”
-Данные в формате:
-«Расчетный счет плательщика» «Расчетный счет получателя» «Перечисляемая сумма в рублях»
 <div align="center">
 
-![alt text](https://github.com/SkorEgor/MoneyTransfers/blob/master/ExampleReadData.jpg)
+![Application window](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/9.ExampleWin.png)
 </div>
 
- 2. После запуска программы, в консоли появятся прочтенные данные
+## Установка
+1.	Разместите на окне элемент «Picture Control»
+
 <div align="center">
 
-![alt text](https://github.com/SkorEgor/MoneyTransfers/blob/master/ExampleStartProgramm.jpg)
+![1.PictureControl.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/1.PictureControl.png)
 </div>
 
-3. При вводе расчетного счета покажется полная информация:
+2.	Измените “ID” элемента со статичного (Я дал “IDC_GRAPH”)
+
 <div align="center">
 
-![alt text](https://github.com/SkorEgor/MoneyTransfers/blob/master/ExampleEndProgramm.jpg)
+![2.ID.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/2.ID.png)
 </div>
 
- 4. При неверном счете, сообщение об ошибке
+3.	Кликаем правой кнопкой по «Picture Control», добавляем переменную, дав имя (Я дал “graphPicture”-элемент управления «Picture Control»)
 
-
-<!--
-*** 
 <div align="center">
-  <img src="https://github.com/SkorEgor/MoneyTransfers/blob/master/ExampleReadData.jpg" width="100" />
+
+![3.AddVar.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/3.AddVar.png)
 </div>
-*** 
--->
-## Начиная
-Необходимо поместить файл [«ITOG_2.0.exe»](https://github.com/SkorEgor/MoneyTransfers/blob/master/Debug/ITOG_2.0.exe) и [«ReadData.txt»](https://github.com/SkorEgor/MoneyTransfers/blob/master/Debug/ReadData.txt) вместе. Причем в txt записать данные пользователей. Дальше, запустит .exe
+
+4.	В папку с проектом добавляем файл «Drawer.h», а также в самом проекте
+
+<div align="center">
+
+![4.AddDrawer.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/4.AddDrawer.png)
+</div>
+
+5.	Подготовка к отрисовке
+a.	Открываем заголовочный файл проекта “…Dlg.h”. В моем случае “GraphDrawingDlg.h” 
+<br /><p align="center">![5.OpenHeader.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/5.OpenHeader.png)</p>
+b.	Подключаем класс в коде, прописывая `#include “Drawer.h`
+c.	В поле protected добавляем объект класса “Drawer”. Пример `Drawer drv;`
+<br /><p align="center">![6.EditHeader.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/6.EditHeader.png)</p>
+6.	«Проинициализируем» объект класса Drawer в функции создания окна. Открываем аналогичный Header файлу cpp файл. В моем случае «GraphDrawingDlg.cpp». Находим функцию «OnInitDialog» и вызываем в ней метод “Creat” для объекта класса «Drawer» и передаем HWND «Picture Control»
+```C
+drv.Create(GetDlgItem(IDC_GRAPH)->GetSafeHwnd());
+```
+<br /><p align="center">![7.OnInit.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/7.OnInit.png)</p>
+
+Дальше можно вызывать метод Draw для отрисовки с заданными параметрами.
+
+Для примера работы, добавим в этот проект кнопку и обработчик нажатия на неё. Напишем небольшой код.
+1.	Создадим 2 вектора (предварительно подключив класс vector)
+```C
+vector <double> x, y;
+int numberFunctionPoints = 20;
+```
+2.	Заполним их значениями
+```C
+for (int i = 0; i < numberFunctionPoints; i++) {
+	x.push_back(i);
+	y.push_back(i * 2);
+}
+```
+3.	Передадим их в drv (объект класса Drawer)
+```C
+drv.Draw(
+	y, y[0], y[y.size() - 1],
+	x, x[0], x[x.size() - 1],
+	'R'
+);
+```
+В итоге должно получится также:
+<div align="center">
+
+![8.Example.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/8.Example.png)
+</div>
 
 ## Алгоритм
 <div align="center">
@@ -185,12 +226,12 @@ This section should list any major frameworks/libraries used to bootstrap your p
 
 
 
-<!-- GETTING STARTED -->
+<!-- НАЧИНАЯ-->
 ## Getting Started
 
 This is an example of how you may give instructions on setting up your project locally.
 To get a local copy up and running follow these simple example steps.
-
+<!-- Предпосылки -->
 ### Prerequisites
 
 This is an example of how to list things you need to use the software and how to install them.
@@ -198,7 +239,7 @@ This is an example of how to list things you need to use the software and how to
   ```sh
   npm install npm@latest -g
   ```
-
+<!-- Монтаж-->
 ### Installation
 
 _Below is an example of how you can instruct your audience on installing and setting up your app. This template doesn't rely on any external dependencies or services._
@@ -249,7 +290,7 @@ See the [open issues](https://github.com/othneildrew/Best-README-Template/issues
 
 
 
-<!-- CONTRIBUTING -->
+<!-- ВКЛАД -->
 ## Contributing
 
 Contributions are what make the open source community such an amazing place to learn, inspire, and create. Any contributions you make are **greatly appreciated**.
@@ -267,7 +308,7 @@ Don't forget to give the project a star! Thanks again!
 
 
 
-<!-- LICENSE -->
+<!-- Лицензия -->
 ## License
 
 Distributed under the MIT License. See `LICENSE.txt` for more information.
