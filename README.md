@@ -105,7 +105,7 @@ drv.Draw(
 ![8.Example.png](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/8.Example.png)
 </div>
 
-## Описание класса [Drawer](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/GraphDrawing/Drawer.h):
+## Описание класса [Drawer](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/GraphDrawing/Drawer.h)
 1.	Для использования объекта класса, необходимо связать объект класса с Picture Control, для отображения, по средством метода ` void Create(HWND hWnd)`
 2.	Для рисования вызывается метод Draw
 <br />Параметры:
