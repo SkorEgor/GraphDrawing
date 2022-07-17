@@ -215,5 +215,5 @@ dc->BitBlt(0, 0, frame.Width(), frame.Height(), &memDC, 0, 0, SRCCOPY);
 
 ## Особенности проекта
 Специфичные оси координат окна
-
+<br /><p align="center">![Axes](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/Картинки/axes.jpg)</p>
 Предварительная отрисовка в буфер 
