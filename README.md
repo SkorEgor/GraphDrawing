@@ -109,7 +109,7 @@ drv.Draw(
 ## Описание класса [Drawer](https://github.com/SkorEgor/GraphDrawing/blob/writingREADME/GraphDrawing/Drawer.h):
 1.	Для использования объекта класса, необходимо связать объект класса с Picture Control, для отображения, по средством метода ` void Create(HWND hWnd)`
 2.	Для рисования вызывается метод Draw
-Параметры:
+<br />Параметры:
 ```C
 vector<double>& data	- вектор значений по оси Y
 double min_data		- min значение по Y
